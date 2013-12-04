@@ -1,28 +1,60 @@
 require 'rspec'
-require './game_of_life.rb'
+require './game_of_life'
 
 
 describe "game of life" do
+
     let(:world) {World.new}
     context "cell utility methods" do
         subject { Cell.new(world) }
         it "spawn relative to" do
             cell = subject.spawn_at(3,5)
             cell.is_a?(Cell).should be_true
+            #checks the position
             cell.x.should == 3
             cell.y.should == 5
             cell.world.should == subject.world
         end
-    end
 
     it "detects a neigbor to the north" do
-        cell = subject.spawn_at(0, 1)
-       subject.neighbors.count.should == 1
+    cell = subject.spawn_at(0, 1)
+    subject.neighbors.count.should == 1
+        end
+
+
+    it "detects a neighbor to the northeast" do
+        cell = subject.spawn_at(1, 1)
+        subject.neighbors.count.should == 1
     end
+
+    it "detects a neighbor to the left" do
+        cell = subject.spawn_at(1, 0)
+        suject.neighbors.count.should == 1
+    end
+
+    it "dies" do
+        subject.die!
+        subject.world.cells.should_not include(subject)
+    end
+end
+
+   
+    
 	
     it "rule 1: any live cell with fewer than two live neigbors dies" do
-    cell = Cell.new
+    cell = Cell.new(world)
+    new_cell = cell.spawn_at(2,0)
     cell.neighbors.count.should == 0
+    world.tick!
+    cell.should be_dead
+    end
+
+    it "rule 2" do
+        cell = Cell.new(world)
+        new_cell = cell.spawn_at(1,0)
+        other_new_cell = cell_spawn_at(-1,0)
+        world.tick!
+        cell.should be_alive
     end
 end
 

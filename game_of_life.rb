@@ -1,27 +1,55 @@
 
 class Cell
-  attr_accessor :world, :x, :y 
-#     #two states, nil and alive (represented by an x)
-#     # def initialize#(board, x, y)
-#     #   #board = World.new
-#     # end
+  attr_accessor  :world, :x, :y 
+# #     #two states, nil and alive (represented by an x)
+# #     # def initialize#(board, x, y)
+# #     #   #board = World.new
+# #     # end
 
-  def initialize(world, x=0, y=0)
+ def initialize(world, x=0, y=0)
+  #default x and y to zero
     @world = world
     @x = x
     @y = y
+#     @world = world
+#     @x = x
+#     @y = y
     world.cells << self
   end
 
+  def die!
+    world.cells -= [self]
+  end
+
+  def dead?
+    !world.cells.include?(self)
+  end
+
+  def alive?
+    world.cells.include?(self)
+  end
+
   def neighbors
-    @neighbors = []
-     world.cells.each do |cell|  
-      if self.x == cell.x && cell 
-    end  
+    @neighbors = [ ]
+    world.cells.each do |cell|
+      #check to the north
+      #cell is the position you are checking for
+      if self.x==cell.x && self.y == cell.y - 1
+        @neighbors << cell
+      end 
+
+      #has a cell to the NE
+      if self.x==cell.x - 1 && self.y == cell.y - 1
+        @neighbors << cell
+      end
+
+      #has a cell to the left
+      if self.x==cell.x + 1 && self.y == cell.y
+        @neighbors << cell
+      end
+    end
+
     @neighbors
-        #will have 8 if statements iterating thorugh the array
-        #this will ideally count 
-      #the neighbors and return a count
   end
 
   def spawn_at(x, y)
@@ -29,14 +57,42 @@ class Cell
   end
 end
 
+#   def neighbors
+#     @neighbors = []
+#     #  world.cells.each do |cell|  
+#     #   if self.x == cell.x && self.y == cell.y - 1
+#     #   #One cell lower than the one we are checking
+#     #     @neighbors << cell 
+#     #   end
+#     # end  
+#     # @neighbors
+#         #will have 8 if statements iterating thorugh the array
+#         #this will ideally count 
+#       #the neighbors and return a count
+#   end
+
+#   def spawn_at(x, y)
+#     Cell.new(x, y)
+#   end
+
+
 
 class World
+  #will keep track of cells
 
   attr_accessor :cells
 
     def initialize
         #@dimensions = dimensions
         @cells = []
+    end
+
+    def tick!
+      cells.each do |cell|
+        if cell.neighbors.count < 2
+          cell.die!
+        end
+      end
     end
 
     #  def new_board
