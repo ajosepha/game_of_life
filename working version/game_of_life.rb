@@ -26,11 +26,11 @@ class Cell
   end
 
   def alive?
-    dead == false
+    world.cells.include?(self)
   end
 
   def neighbors
-    @neighbors = [ ]
+    @neighbors = []
     world.cells.each do |cell|
       #check to the north
       #cell is the position you are checking for
@@ -64,3 +64,56 @@ end
 #     #   #One cell lower than the one we are checking
 #     #     @neighbors << cell 
 #     #   end
+#     # end  
+#     # @neighbors
+#         #will have 8 if statements iterating thorugh the array
+#         #this will ideally count 
+#       #the neighbors and return a count
+#   end
+
+#   def spawn_at(x, y)
+#     Cell.new(x, y)
+#   end
+ 
+
+
+class World
+  #will keep track of cells
+
+  attr_accessor :cells, :size, :graph
+
+    def initialize(size)
+        @size = size
+        @cells = []
+    end
+
+    def tick!
+      cells.each do |cell|
+        if cell.neighbors.count < 2
+          cell.die!
+        elsif cell.neighbors.count == 2
+          cell.alive!
+        end
+      end
+
+      def new_grid
+        @size.times do |outer|
+          @grid << []
+        end
+      end
+
+    end
+
+    #  def new_board
+    #   @dimensions.times do |x|
+    #     #x is the big array
+    #     #there are dimensions rows 
+    #     #the value of x and y will be equal to each other
+    #     @board << []
+    #         @dimensions.times do |y|
+    #             #y is the smaller arrays and slots
+    #             @board[x] << Cell.new(x, y)
+    #         end
+    #   end
+    # end
+end

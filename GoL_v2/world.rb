@@ -7,23 +7,26 @@ class World
         @size 
     end
 
-    
-
     def initialize(size)
         @size = size
-        #@board = []
+        @board = []
     end
 
-    def grid
-        @board = []
-        debugger
+    def grid(size)
+        #@board = []
+        #debugger
         @size.times do |h|
             @board << []
             @size.times do |s|
-                @board[h] << "o"
+                @board[h] << "."
             end
         end
+        @board
     end
+
+    # def print_board
+    #     ap @board
+    # end
 end
 
 

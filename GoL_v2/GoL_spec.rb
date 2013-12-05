@@ -1,6 +1,6 @@
 require 'rspec'
 require './world.rb'
-#require './cell.rb'
+require './cell.rb'
 
 RSpec.configure do |config|
   # Use color in STDOUT
@@ -16,9 +16,20 @@ end
 describe World, "#grid" do
 
     it "should have a new world with all os" do
-        expect(World.new(2).grid).to be([["o", "o"],["o", "o"]])
+        expect(World.new(2).grid).to eq([["o", "o"],["o", "o"]])
     end
 end
+
+ describe Cell, "#show_world" do
+    it "should have a board" do
+        expect(Cell.new.show_world).to eq([["o", "o"],["o", "o"]])
+    end
+end
+
+# describe Cell, "#new_cell" do
+#     it "should generate a new cell in the array" do
+#     end
+# end
 
 # describe PigLatin, "#add_ay" do
 

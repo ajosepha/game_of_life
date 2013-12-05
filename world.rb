@@ -3,11 +3,13 @@
 class World
   #will keep track of cells
 
-  attr_accessor :cells, :size, :graph
+  attr_accessor :cells, :size
+  attr_reader :grid
 
     def initialize
         @size = size
         @cells = []
+        @grid = []
     end
 
     def tick!

@@ -2,6 +2,17 @@ require 'rspec'
 require './cell'
 require './world'
 
+RSpec.configure do |config|
+  # Use color in STDOUT
+  config.color_enabled = true
+ 
+  # Use color not only in STDOUT but also in pagers and files
+  config.tty = true
+ 
+  # Use the specified formatter
+  config.formatter = :progress # :progress, :html, :textmate
+end
+
 
 describe "game of life" do
 
@@ -33,14 +44,37 @@ describe "game of life" do
         subject.neighbors.count.should == 1
     end
 
+    it "detects a neighbor to the south" do
+        cell = subject.spawn_at(0, -1)
+        subject.neighbors.count.should == 1
+    end
+
+      it "detects a neighbor to the east" do
+        cell = subject.spawn_at(1, 0)
+        subject.neighbors.count.should == 1
+    end
+
+    it "detects a neighbor to the southeast" do
+        cell = subject.spawn_at(1, -1) 
+        subject.neighbors.count.should == 1
+    end
+
+     it "detects a neighbor to the southwest" do
+        cell = subject.spawn_at(-1, -1) 
+        subject.neighbors.count.should == 1
+    end
+
+    it "detects a neighbor to the north west" do
+        cell = subject.spawn_at(-1, 1) 
+        subject.neighbors.count.should == 1
+    end
+
     it "dies" do
         subject.die!
         subject.world.cells.should_not include(subject)
     end
 end
 
-   
-    
 	
     it "rule 1: any live cell with fewer than two live neigbors dies" do
         cell = Cell.new(world)
@@ -58,22 +92,15 @@ end
         cell.should be_alive
     end
 
-    it "has a new grid that the world will play on" do
-        World.new_grid
-    end
 
 end
 
-# describe "World" do
-#     it "can make a board" do
-#         my_board = World.new(2)
-#         expect(my_board).to_not be(nil)
+# describe World, "#grid" do
+
+#     it "should have a new world with all os" do
+#         expect(World.new.grid(2)).to eq([[".", "."],[".", "."]])
 #     end
-    # it "creates an array with with a cell in each slot" do
-    #     my_world = World.new(3)
-    #     my_world.new_board.should == [[ , , ],[ , , ,],[ , , ]]
-    # end
-#end 
+# end 
 
 #simple tests
 #
