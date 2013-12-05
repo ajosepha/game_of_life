@@ -1,5 +1,6 @@
 require 'rspec'
-require './game_of_life'
+require './cell'
+require './world'
 
 
 describe "game of life" do
@@ -27,9 +28,9 @@ describe "game of life" do
         subject.neighbors.count.should == 1
     end
 
-    it "detects a neighbor to the left" do
-        cell = subject.spawn_at(1, 0)
-        suject.neighbors.count.should == 1
+    it "detects a neighbor to the west" do
+        cell = subject.spawn_at(-1, 0)
+        subject.neighbors.count.should == 1
     end
 
     it "dies" do
@@ -42,20 +43,25 @@ end
     
 	
     it "rule 1: any live cell with fewer than two live neigbors dies" do
-    cell = Cell.new(world)
-    new_cell = cell.spawn_at(2,0)
-    cell.neighbors.count.should == 0
-    world.tick!
-    cell.should be_dead
+        cell = Cell.new(world)
+        new_cell = cell.spawn_at(2,0)
+        cell.neighbors.count.should == 0
+        world.tick!
+        cell.should be_dead
     end
 
     it "rule 2" do
         cell = Cell.new(world)
         new_cell = cell.spawn_at(1,0)
-        other_new_cell = cell_spawn_at(-1,0)
+        other_new_cell = cell.spawn_at(-1,0)
         world.tick!
         cell.should be_alive
     end
+
+    it "has a new grid that the world will play on" do
+        World.new_grid
+    end
+
 end
 
 # describe "World" do
